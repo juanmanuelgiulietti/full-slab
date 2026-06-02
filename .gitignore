@@ -1,0 +1,24 @@
+# --- JAVA / SPRING BOOT ---
+**/target/
+**.class
+**.jar
+**.war
+.mtl.xml
+.idea/
+*.iml
+
+# --- REACT / NODE ---
+**/node_modules/
+**/dist/
+**/.env
+**/.env.local
+
+# --- PYTHON / SCRAPER ---
+**/__pycache__/
+**/.venv/
+**/venv/
+**/.pytest_cache/
+
+# --- ARCHIVOS DE DATOS ---
+# *.xlsx
+# *.csv
