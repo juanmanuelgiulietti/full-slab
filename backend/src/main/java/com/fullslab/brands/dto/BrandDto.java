@@ -2,11 +2,9 @@ package com.fullslab.brands.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class BrandDto {
 
     @NotBlank(message = "El nombre es obligatorio")
@@ -14,7 +12,8 @@ public class BrandDto {
     private String name;
 
     @Size(max = 500, message = "La URL del logo es demasiado larga")
-    private String logoUrl; // Usamos camelCase
+    private String logoUrl;
 
+    @Size(max = 1000, message = "La descripción es demasiado larga")
     private String description;
 }
