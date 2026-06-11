@@ -4,6 +4,7 @@ import com.fullslab.brands.dto.BrandDto;
 import com.fullslab.brands.dto.BrandResponseDto;
 import com.fullslab.brands.entity.Brand;
 import com.fullslab.brands.repository.BrandRepository;
+import com.fullslab.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class BrandService {
         
         Brand savedBrand = brandRepository.save(brand);
         
-    return mapToResponse(savedBrand);
-}
+        return mapToResponse(savedBrand);
+    }
 
     public List<BrandResponseDto> getAllBrands() {
         return brandRepository.findAll().stream()
@@ -36,7 +37,7 @@ public class BrandService {
 
     public BrandResponseDto updateBrand(Long id, BrandDto brandDto) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Marca no encontrada con ID: " + id));
 
         brand.setName(brandDto.getName());
         brand.setLogoUrl(brandDto.getLogoUrl());
@@ -47,7 +48,7 @@ public class BrandService {
 
     public void deleteBrand(Long id) {
         if (!brandRepository.existsById(id)) {
-            throw new RuntimeException("No se puede eliminar, marca no encontrada con ID: " + id);
+            throw new ResourceNotFoundException("No se puede eliminar, marca no encontrada con ID: " + id);
         }
         brandRepository.deleteById(id);
     }

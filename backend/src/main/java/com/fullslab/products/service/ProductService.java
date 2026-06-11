@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.fullslab.brands.repository.BrandRepository;
 import com.fullslab.category.entity.Category;
 import com.fullslab.category.repository.CategoryRepository;
+import com.fullslab.exception.ResourceNotFoundException;
 import com.fullslab.products.dto.BulkResponseDto;
 import com.fullslab.products.dto.CreateProductDto;
 import com.fullslab.products.dto.ProductResponseDto;
@@ -20,89 +21,66 @@ import com.fullslab.products.repository.ProductRepository;
 
 @Service
 public class ProductService {
+
     @Autowired
     private ProductRepository productRepository;
+    
     @Autowired
     private BrandRepository brandRepository;
+    
     @Autowired
     private CategoryRepository categoryRepository;
 
     public List<ProductResponseDto> getAllProducts() {
-        return productRepository.findAll().stream().map(product -> {
-            ProductResponseDto dto = new ProductResponseDto();
-            if (product.getBrand() != null) {
-                dto.setBrandName(product.getBrand().getName());
-            }
-            if (product.getCategory() != null) {
-                dto.setCategoryName(product.getCategory().getName());
-            }
-            dto.setName(product.getName());
-            dto.setPrice(product.getPrice());
-            dto.setDescription(product.getDescription());
-            dto.setStock(product.getStock());
-
-            return dto;
-        }).collect(Collectors.toList());
+        return productRepository.findAll().stream()
+                .map(this::mapToResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public ProductResponseDto saveProduct(CreateProductDto productDto) {
+    public ProductResponseDto saveProduct(CreateProductDto dto) {
         Product product = new Product();
-
-        product.setName(productDto.getName());
-        product.setPrice(productDto.getPrice());
-        product.setDescription(productDto.getDescription());
-        product.setStock(productDto.getStock());
-        product.setMinStock(productDto.getMinStock());
-
-        if (productDto.getBrandId() != null) {
-            brandRepository.findById(productDto.getBrandId()).ifPresent(product::setBrand);
+        product.setName(dto.getName());
+        product.setPrice(dto.getPrice());
+        product.setDescription(dto.getDescription());
+        product.setStock(dto.getStock());
+        product.setMinStock(dto.getMinStock());
+        
+        if (dto.getBrandId() != null) {
+            var brand = brandRepository.findById(dto.getBrandId())
+                .orElseThrow(() -> new ResourceNotFoundException("Marca no encontrada con ID: " + dto.getBrandId()));
+            product.setBrand(brand);
         }
 
-        if (productDto.getCategoryId() != null) {
-            categoryRepository.findById(productDto.getCategoryId()).ifPresent(product::setCategory);
+        if (dto.getCategoryId() != null) {
+            var category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + dto.getCategoryId()));
+            product.setCategory(category);
         }
 
-        Product savedProduct = productRepository.save(product);
-        ProductResponseDto responseDto = new ProductResponseDto();
-        responseDto.setName(savedProduct.getName());
-        responseDto.setPrice(savedProduct.getPrice());
-        responseDto.setDescription(savedProduct.getDescription());
-        responseDto.setStock(savedProduct.getStock());
-        responseDto.setMinStock(savedProduct.getMinStock());
-
-        if (savedProduct.getBrand() != null) {
-            responseDto.setBrandName(savedProduct.getBrand().getName());
-        }
-
-        if (savedProduct.getCategory() != null) {
-            responseDto.setCategoryName(savedProduct.getCategory().getName());
-        }
-
-        return responseDto;
+        return mapToResponseDto(productRepository.save(product));
     }
 
     public ProductResponseDto updateProduct(Long id, UpdateProductDto dto) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con ID: " + id));
 
-        if (dto.getName() != null)
-            product.setName(dto.getName());
-        if (dto.getPrice() != null)
-            product.setPrice(dto.getPrice());
+        if (dto.getName() != null) product.setName(dto.getName());
+        if (dto.getPrice() != null) product.setPrice(dto.getPrice());
 
         if (dto.getCategoryId() != null) {
-            Category newCat = categoryRepository.findById(dto.getCategoryId()).orElseThrow();
-            product.setCategory(newCat);
+            Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + dto.getCategoryId()));
+            product.setCategory(category);
         }
 
-        return new ProductResponseDto(productRepository.save(product));
+        return mapToResponseDto(productRepository.save(product));
     }
 
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con ID: " + id));
 
         product.setDeletedAt(LocalDateTime.now());
-
         productRepository.save(product);
     }
 
@@ -122,5 +100,22 @@ public class ProductService {
         response.setSuccessfulProducts(successful);
         response.setErrorMessages(errors);
         return response;
+    }
+
+    private ProductResponseDto mapToResponseDto(Product p) {
+        ProductResponseDto dto = new ProductResponseDto();
+        dto.setName(p.getName());
+        dto.setPrice(p.getPrice());
+        dto.setDescription(p.getDescription());
+        dto.setStock(p.getStock());
+        
+        if (p.getBrand() != null) {
+            dto.setBrandName(p.getBrand().getName());
+        }
+        if (p.getCategory() != null) {
+            dto.setCategoryName(p.getCategory().getName());
+        }
+        
+        return dto;
     }
 }
