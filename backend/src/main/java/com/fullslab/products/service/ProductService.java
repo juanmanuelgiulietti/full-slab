@@ -37,7 +37,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductResponseDto saveProduct(CreateProductDto dto) {
+    public ProductResponseDto createProduct(CreateProductDto dto) {
         Product product = new Product();
         product.setName(dto.getName());
         product.setPrice(dto.getPrice());
@@ -84,14 +84,14 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public BulkResponseDto saveAll(List<CreateProductDto> productsDto) {
+    public BulkResponseDto createAll(List<CreateProductDto> productsDto) {
         BulkResponseDto response = new BulkResponseDto();
         List<ProductResponseDto> successful = new ArrayList<>();
         List<String> errors = new ArrayList<>();
 
         for (CreateProductDto dto : productsDto) {
             try {
-                successful.add(saveProduct(dto));
+                successful.add(createProduct(dto));
             } catch (Exception e) {
                 errors.add("Error en producto " + dto.getName() + ": " + e.getMessage());
             }

@@ -36,7 +36,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<ProductResponseDto>> create(@RequestBody CreateProductDto dto) {
-        return ResponseEntity.ok(new ApiResponse<>("Producto creado", true, productService.saveProduct(dto)));
+        return ResponseEntity.ok(new ApiResponse<>("Producto creado", true, productService.createProduct(dto)));
     }
 
     @PutMapping("/{id}")

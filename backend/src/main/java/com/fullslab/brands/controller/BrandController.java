@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fullslab.brands.dto.BrandDto;
+import com.fullslab.brands.dto.CreateBrandDto;
 import com.fullslab.brands.dto.BrandResponseDto;
 import com.fullslab.brands.service.BrandService;
 import com.fullslab.utils.ApiResponse;
@@ -32,7 +32,7 @@ public class BrandController {
 
     
     @PostMapping
-    public ResponseEntity<ApiResponse<BrandResponseDto>> create(@Valid @RequestBody BrandDto brandDto) {
+    public ResponseEntity<ApiResponse<BrandResponseDto>> create(@Valid @RequestBody CreateBrandDto brandDto) {
         BrandResponseDto createdBrand = brandService.createBrand(brandDto);
     
         return ResponseEntity.ok(new ApiResponse<>("Marca creada exitosamente", true, createdBrand));
@@ -44,7 +44,7 @@ public class BrandController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<BrandResponseDto>> update(@PathVariable Long id, @Valid @RequestBody BrandDto brandDto) {
+    public ResponseEntity<ApiResponse<BrandResponseDto>> update(@PathVariable Long id, @Valid @RequestBody CreateBrandDto brandDto) {
         return ResponseEntity.ok(new ApiResponse<>("Marca actualizada exitosamente", true, brandService.updateBrand(id, brandDto)));
     }
 

@@ -1,6 +1,6 @@
 package com.fullslab.brands.service;
 
-import com.fullslab.brands.dto.BrandDto;
+import com.fullslab.brands.dto.CreateBrandDto;
 import com.fullslab.brands.dto.BrandResponseDto;
 import com.fullslab.brands.entity.Brand;
 import com.fullslab.brands.repository.BrandRepository;
@@ -18,7 +18,7 @@ public class BrandService {
     @Autowired
     private BrandRepository brandRepository;
 
-    public BrandResponseDto createBrand(BrandDto brandDto) {
+    public BrandResponseDto createBrand(CreateBrandDto brandDto) {
         Brand brand = new Brand();
         brand.setName(brandDto.getName());
         brand.setLogoUrl(brandDto.getLogoUrl());
@@ -35,7 +35,7 @@ public class BrandService {
                 .collect(Collectors.toList());
     }
 
-    public BrandResponseDto updateBrand(Long id, BrandDto brandDto) {
+    public BrandResponseDto updateBrand(Long id, CreateBrandDto brandDto) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Marca no encontrada con ID: " + id));
 
