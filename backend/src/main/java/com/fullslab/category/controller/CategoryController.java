@@ -2,7 +2,6 @@ package com.fullslab.category.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +13,8 @@ import com.fullslab.category.dto.UpdateCategoryDto;
 import com.fullslab.category.service.CategoryService;
 import com.fullslab.utils.ApiResponse;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +23,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class CategoryController {
-
-    @Autowired
     private CategoryService categoryService;
 
     @GetMapping

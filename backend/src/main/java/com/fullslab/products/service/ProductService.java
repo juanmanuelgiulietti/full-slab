@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fullslab.brands.repository.BrandRepository;
@@ -19,16 +18,13 @@ import com.fullslab.products.dto.UpdateProductDto;
 import com.fullslab.products.entity.Product;
 import com.fullslab.products.repository.ProductRepository;
 
-@Service
-public class ProductService {
+import lombok.RequiredArgsConstructor;
 
-    @Autowired
+@Service
+@RequiredArgsConstructor
+public class ProductService {
     private ProductRepository productRepository;
-    
-    @Autowired
     private BrandRepository brandRepository;
-    
-    @Autowired
     private CategoryRepository categoryRepository;
 
     public List<ProductResponseDto> getAllProducts() {

@@ -2,7 +2,6 @@ package com.fullslab.products.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +14,8 @@ import com.fullslab.products.dto.UpdateProductDto;
 import com.fullslab.products.service.ProductService;
 import com.fullslab.utils.ApiResponse;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
-
-    @Autowired
     private ProductService productService;
 
     @GetMapping
