@@ -3,7 +3,6 @@ package com.fullslab.category.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fullslab.category.dto.CategoryResponseDto;
@@ -13,10 +12,11 @@ import com.fullslab.category.entity.Category;
 import com.fullslab.category.repository.CategoryRepository;
 import com.fullslab.exception.ResourceNotFoundException;
 
-@Service
-public class CategoryService {
+import lombok.RequiredArgsConstructor;
 
-    @Autowired
+@Service
+@RequiredArgsConstructor
+public class CategoryService {
     private CategoryRepository repository;
 
     public CategoryResponseDto saveCategory(CreateCategoryDto dto) {

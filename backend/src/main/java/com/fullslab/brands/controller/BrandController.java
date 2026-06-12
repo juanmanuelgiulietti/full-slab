@@ -2,7 +2,6 @@ package com.fullslab.brands.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +14,7 @@ import com.fullslab.brands.service.BrandService;
 import com.fullslab.utils.ApiResponse;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +25,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/api/brands")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class BrandController {
-
-    @Autowired
     private BrandService brandService;
 
     

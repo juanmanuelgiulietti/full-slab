@@ -1,21 +1,21 @@
 package com.fullslab.brands.service;
 
-import com.fullslab.brands.dto.CreateBrandDto;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.fullslab.brands.dto.BrandResponseDto;
+import com.fullslab.brands.dto.CreateBrandDto;
 import com.fullslab.brands.entity.Brand;
 import com.fullslab.brands.repository.BrandRepository;
 import com.fullslab.exception.ResourceNotFoundException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class BrandService {
-
-    @Autowired
     private BrandRepository brandRepository;
 
     public BrandResponseDto createBrand(CreateBrandDto brandDto) {

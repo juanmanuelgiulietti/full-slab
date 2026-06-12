@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FullslabApplication<fullslab>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.fullslab.FullslabApplication",
+            "projectName": "fullslab",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

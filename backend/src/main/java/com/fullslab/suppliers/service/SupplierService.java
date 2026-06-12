@@ -1,6 +1,5 @@
 package com.fullslab.suppliers.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fullslab.exception.ResourceNotFoundException;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class SupplierService {
-    @Autowired
     private final SupplierRepository supplierRepository;
 
     public SupplierResponseDto createSupplier(CreateSupplierDto dto) {

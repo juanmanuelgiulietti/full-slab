@@ -3,7 +3,6 @@ package com.fullslab.suppliers.entity;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fullslab.suppliers.enums.IvaCategory;
 
